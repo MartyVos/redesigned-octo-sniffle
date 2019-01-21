@@ -19,7 +19,8 @@ public:
 	void onRender()override {}
 	void update(float &dT);
 	void draw(std::shared_ptr<sf::RenderWindow> w);
-	void setPlayerPosition(sf::Vector2f delta);
+	void setPlayerPosition(sf::Vector2f pos);
+	void movePlayer(sf::Vector2f delta);
 	~Grid();
 };
 

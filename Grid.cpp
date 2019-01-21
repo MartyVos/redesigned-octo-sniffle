@@ -45,7 +45,12 @@ void Grid::draw(std::shared_ptr<sf::RenderWindow> w) {
 	}
 }
 
-void Grid::setPlayerPosition(sf::Vector2f delta) {
+void Grid::setPlayerPosition(sf::Vector2f pos) {
+	playerPosition = pos;
+	tileVec[playerIndex]->setPosition(playerPosition);
+}
+
+void Grid::movePlayer(sf::Vector2f delta) {
 	playerPosition += delta;
 	tileVec[playerIndex]->setPosition(playerPosition);
 }

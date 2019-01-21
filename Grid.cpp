@@ -4,7 +4,9 @@
 
 Grid::Grid(std::vector<Tile*> &tileVec):
 	tileVec(tileVec)
-{}
+{
+	playerIndex = tileVec.size() - 1;
+}
 
 // TODO validMove
 // checking if the value suggested position is allowed inside the grid
@@ -28,6 +30,11 @@ int Grid::getType(int currentIndex, int direction) {
 	return 0;
 }
 
+void Grid::update(float &dT) {
+	for (auto &i : tileVec) {
+		i->updateFrame(dT);
+	}
+}
 
 Grid::~Grid() {
 }
@@ -36,4 +43,9 @@ void Grid::draw(std::shared_ptr<sf::RenderWindow> w) {
 	for (auto &i : tileVec) {
 		i->draw(w);
 	}
+}
+
+void Grid::setPlayerPosition(sf::Vector2f delta) {
+	playerPosition += delta;
+	tileVec[playerIndex]->setPosition(playerPosition);
 }

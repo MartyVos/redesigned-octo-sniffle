@@ -23,9 +23,5 @@ public:
 	void setPosition(sf::Vector2f pos);
 	void updateFrame(float &dT);
 	void setAnimation(bool play = true, bool loop = true);
-	void load() {
-		this->sheet.LoadSheet(std::to_string(id));
-		this->setAnimation();
-	}
 };
 

@@ -10,6 +10,14 @@
 #include "Grid.hpp"
 
 
+template<typename T>
+void destroy_vector(std::vector<T*> &v) {
+	while (!v.empty()) {
+		delete v.back();
+		v.pop_back();
+	}
+}
+
 //TODO:	Make Player Texture
 
 std::vector<Tile*> getTiles(std::string filename, TextureManager &tex) {
@@ -55,7 +63,12 @@ int main() {
 
 	auto tiles = getTiles("grid.json", tex);
 	
+	int playerID = 4;
+	Tile* player = new Tile{ playerID,&tex,"32Test" };
+	tiles.push_back(player);
+
 	auto sharedG = std::make_shared<Grid>(tiles);
+	sharedG->setPlayerPosition(sf::Vector2f{ 64.f,64.f });
 
 	auto window = std::make_shared<sf::RenderWindow>(sf::VideoMode{ 640,480 }, "PocketAnimals Grid Test");
 
@@ -74,6 +87,27 @@ int main() {
 		while (window->pollEvent(event)) {
 			if (event.type == sf::Event::Closed) {
 				window->close();
+				destroy_vector<Tile>(tiles);
+			}
+			else if (event.type == sf::Event::KeyPressed) {
+				switch (event.key.code)
+				{
+					//TODO:	delta moet gescaled worden.
+				case sf::Keyboard::W:
+					sharedG->setPlayerPosition(sf::Vector2f{ 0.f,-10.f });
+					break;
+				case sf::Keyboard::A:
+					sharedG->setPlayerPosition(sf::Vector2f{ -10.f,0.f });
+					break;
+				case sf::Keyboard::S:
+					sharedG->setPlayerPosition(sf::Vector2f{ 0.f,+10.f });
+					break;
+				case sf::Keyboard::D:
+					sharedG->setPlayerPosition(sf::Vector2f{ +10.f,0.f });
+					break;
+				default:
+					break;
+				}
 			}
 		}
 	}

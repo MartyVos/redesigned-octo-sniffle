@@ -94,16 +94,16 @@ int main() {
 				{
 					//TODO:	delta moet gescaled worden.
 				case sf::Keyboard::W:
-					sharedG->setPlayerPosition(sf::Vector2f{ 0.f,-10.f });
+					sharedG->movePlayer(sf::Vector2f{ 0.f,-10.f });
 					break;
 				case sf::Keyboard::A:
-					sharedG->setPlayerPosition(sf::Vector2f{ -10.f,0.f });
+					sharedG->movePlayer(sf::Vector2f{ -10.f,0.f });
 					break;
 				case sf::Keyboard::S:
-					sharedG->setPlayerPosition(sf::Vector2f{ 0.f,+10.f });
+					sharedG->movePlayer(sf::Vector2f{ 0.f,+10.f });
 					break;
 				case sf::Keyboard::D:
-					sharedG->setPlayerPosition(sf::Vector2f{ +10.f,0.f });
+					sharedG->movePlayer(sf::Vector2f{ +10.f,0.f });
 					break;
 				default:
 					break;

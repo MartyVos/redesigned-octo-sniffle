@@ -1,0 +1,202 @@
+#include "spriteSheet.hpp"
+#include "Anim_Base.hpp"
+#include "Anim_Directional.hpp"
+
+SpriteSheet::SpriteSheet(TextureManager* l_textMgr) :
+	m_textureManager(l_textMgr),
+	m_animationCurrent(nullptr),
+	m_spriteScale(1.f, 1.f),
+	m_direction(Direction::Right)
+{}
+
+SpriteSheet::~SpriteSheet() { ReleaseSheet(); }
+
+void SpriteSheet::ReleaseSheet() {
+	m_textureManager->ReleaseResource(m_texture);
+	m_animationCurrent = nullptr;
+	while (m_animations.begin() != m_animations.end()) {
+		delete m_animations.begin()->second;
+		m_animations.erase(m_animations.begin());
+	}
+}
+
+void SpriteSheet::SetSpriteSize(const sf::Vector2i &l_size) {
+	m_spriteSize = l_size;
+	auto pos = this->GetSpritePosition();
+	sf::Vector2f tmp = { static_cast<float>(pos.x), static_cast<float>(pos.y) };
+	m_sprite.setOrigin(tmp);
+	//m_spriteSize.x/2
+}
+
+void SpriteSheet::SetSpritePosition(const sf::Vector2f &l_pos) {
+	m_sprite.setPosition(l_pos);
+}
+
+void SpriteSheet::SetSpriteDirection(const Direction &l_dir) {
+	if (l_dir == m_direction) { return; }
+	m_direction = l_dir;
+	m_animationCurrent->CropSprite();
+}
+
+void SpriteSheet::CropSprite(const sf::IntRect &l_rect) {
+	m_sprite.setTextureRect(l_rect);
+}
+
+bool SpriteSheet::SetAnimation(const std::string &l_name,
+	const bool &l_play,
+	const bool &l_loop)
+{
+	auto itr = m_animations.find(l_name);		//Can't set loop?
+	if (itr == m_animations.end()) { return false; }
+
+	//Looping problem fixed when removed.
+	//if (itr->second == m_animationCurrent) { std::cout << "CURRENT ANIM" << std::endl; return false; }
+	if (m_animationCurrent) { m_animationCurrent->Stop(); }
+	m_animationCurrent = itr->second;
+	m_animationCurrent->SetLooping(l_loop);
+	if (l_play) { m_animationCurrent->Play(); }
+	m_animationCurrent->CropSprite();
+	return true;
+}
+
+Anim_Base* SpriteSheet::GetCurrentAnim() {
+	return m_animationCurrent;
+}
+
+void SpriteSheet::Update(const float &l_dT) {
+	m_animationCurrent->Update(l_dT);
+}
+
+void SpriteSheet::draw(std::shared_ptr<sf::RenderWindow> w) {
+	w->draw(m_sprite);
+}
+
+sf::Vector2i SpriteSheet::GetSpriteSize() {
+	return m_spriteSize;
+}
+
+sf::Vector2f SpriteSheet::GetSpritePosition() {
+	return m_sprite.getPosition();
+}
+
+Direction SpriteSheet::GetDirection() {
+	return m_direction;
+}
+
+bool SpriteSheet::LoadSheet(const std::string &l_file) {
+	std::ifstream sheet;
+	sheet.open("grid.json");
+	json j;
+
+	bool invalidID = false;
+
+	if (sheet.is_open()) {
+		ReleaseSheet();
+		sheet >> j;
+		json::array_t tileData = j["data"]["grid"]["gfx"];
+		std::string texture;
+		json::array_t tileset = j["data"]["grid"]["tileset"];
+		
+		std::string tmp = "0";		//Tmp hardcoded tileset
+		unsigned int ID;
+		unsigned int tileDataSize = tileData.size();
+
+		if (static_cast<unsigned int>(std::stoi(l_file)) >= tileDataSize) {
+			//Invalid tile -> missing texture
+			invalidID = true;
+			texture = tmp;
+			ID = 0;			//Default
+		}
+		else {
+			for (unsigned int i = 0; i < tileDataSize; i++) {
+				if (l_file == std::to_string(i)) {
+					texture = tmp;
+					ID = i;
+					break;
+				}
+			}
+		}
+		
+		
+		if (m_texture != "") {
+			std::cerr << "! Duplicate texture entries in: "
+				<< l_file << std::endl;
+			
+		}
+		if (!m_textureManager->RequireResource(texture)) {
+			std::cerr << "! Could not set up the texture: "
+				<< texture << std::endl;
+			
+		}
+
+		m_texture = texture;
+		m_sprite.setTexture(*m_textureManager->GetResource(m_texture));
+		json::object_t tileID = tileData[ID][std::to_string(ID)];
+	
+		auto sizes = tileID["size"];
+		m_spriteSize.x = sizes[0];
+		m_spriteSize.y = sizes[1];
+		SetSpriteSize(m_spriteSize);
+
+		auto scale = tileID["scale"];
+		m_spriteScale.x = scale[0];
+		m_spriteScale.y = scale[1];
+		m_sprite.setScale(m_spriteScale);
+		
+		auto animName = tileID["anim_name"];
+		json::string_t animType = tileID["anim_type"];
+		m_animType = animType;
+		std::string name = animName;
+		if (m_animations.find(name) != m_animations.end()) {
+			std::cerr << "! Duplicate animation(" << name
+				<< ") in: " << l_file << std::endl;
+		}
+		//std::cout << name << std::endl;		//Animation overwritten
+		Anim_Base* anim = nullptr;
+		if (m_animType == "Directional") {
+			anim = new Anim_Directional();
+		}
+		else {
+			std::cerr << "! Unknown animation type: "
+				<< m_animType << std::endl;
+		}
+
+		auto animData = tileID["anim"];
+
+		//If invalid
+		if (invalidID) {
+			anim->m_frameStart = 2;
+			anim->m_frameEnd = 2;
+			anim->m_frameRow = 0;
+			anim->m_frameTime = animData[3];
+			anim->m_frameActionStart = -1;
+			anim->m_frameActionEnd = -1;
+		}
+		else {
+			anim->m_frameStart = animData[0];
+			anim->m_frameEnd = animData[1];
+			anim->m_frameRow = animData[2];
+			anim->m_frameTime = animData[3];
+			anim->m_frameActionStart = animData[4];
+			anim->m_frameActionEnd = animData[5];
+		}
+
+		anim->SetSpriteSheet(this);
+		anim->SetName(name);
+		anim->Reset();
+		m_animations.emplace(name, anim);
+		if (m_animationCurrent) {}
+		m_animationCurrent = anim;
+		m_animationCurrent->Play();
+
+		sheet.close();
+		return true;
+	}
+	else {
+		std::cerr << "! Failed loading spritesheet: "
+			<< l_file << std::endl;
+	}
+	return false;
+}
+
+//TODO:	Rewrite gridWindow.cpp for using animations

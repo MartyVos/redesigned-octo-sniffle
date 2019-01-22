@@ -54,3 +54,26 @@ void Grid::movePlayer(sf::Vector2f delta) {
 	playerPosition += delta;
 	tileVec[playerIndex]->setPosition(playerPosition);
 }
+
+int Grid::checkDirection(std::string direction) {
+	auto tmp = directionMap.find(direction);
+	if (tmp != directionMap.end()) {
+		return tmp->second;
+	}
+	return -2;		//Left is always -1
+}
+
+int Grid::move(int currentIndex, int ID, std::string direction) {
+	auto tmp = checkDirection(direction);
+	if (tmp != -2) {
+		currentIndex += tmp;
+	}
+	return currentIndex;
+}
+
+void Grid::setupMap(nlohmann::json::array_t &gridData) {
+	directionMap.emplace("left", gridData[0]["left"]);
+	directionMap.emplace("right", gridData[1]["right"]);
+	directionMap.emplace("up", gridData[2]["up"]);
+	directionMap.emplace("down", gridData[3]["down"]);
+}

@@ -97,8 +97,14 @@ int main() {
 	std::cout << sharedG->move(25, 2, "usp") << std::endl;
 	std::cout << sharedG->move(25, 2, "doswn") << std::endl << std::endl;
 
+	sf::View view1;
+	view1.setSize(sf::Vector2f{ 640.f,480.f });
+	view1.setCenter(sharedG->getPlayerPos());
+	auto tmp = sharedG->getPlayerPos();
+	view1.setCenter(tmp);
 
 	while (window->isOpen()) {
+		window->setView(view1);
 		window->clear();
 
 		gs.render();
@@ -118,15 +124,19 @@ int main() {
 					//TODO:	delta moet gescaled worden.
 				case sf::Keyboard::W:
 					sharedG->movePlayer(sf::Vector2f{ 0.f,-10.f });
+					view1.move(0.f, -10.f);
 					break;
 				case sf::Keyboard::A:
 					sharedG->movePlayer(sf::Vector2f{ -10.f,0.f });
+					view1.move(-10.f, 0.f);
 					break;
 				case sf::Keyboard::S:
 					sharedG->movePlayer(sf::Vector2f{ 0.f,+10.f });
+					view1.move(0.f, 10.f);
 					break;
 				case sf::Keyboard::D:
 					sharedG->movePlayer(sf::Vector2f{ +10.f,0.f });
+					view1.move(10.f, 0.f);
 					break;
 				default:
 					break;

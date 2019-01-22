@@ -1,6 +1,6 @@
 #include "spriteSheet.hpp"
-#include "Anim_Base.hpp"
-#include "Anim_Directional.hpp"
+#include "AnimBase.hpp"
+#include "AnimDirectional.hpp"
 
 SpriteSheet::SpriteSheet(TextureManager* l_textMgr) :
 	m_textureManager(l_textMgr),
@@ -59,7 +59,7 @@ bool SpriteSheet::SetAnimation(const std::string &l_name,
 	return true;
 }
 
-Anim_Base* SpriteSheet::GetCurrentAnim() {
+AnimBase* SpriteSheet::GetCurrentAnim() {
 	return m_animationCurrent;
 }
 
@@ -152,9 +152,9 @@ bool SpriteSheet::LoadSheet(const std::string &l_file) {
 				<< ") in: " << l_file << std::endl;
 		}
 		//std::cout << name << std::endl;		//Animation overwritten
-		Anim_Base* anim = nullptr;
+		AnimBase* anim = nullptr;
 		if (m_animType == "Directional") {
-			anim = new Anim_Directional();
+			anim = new AnimDirectional();
 		}
 		else {
 			std::cerr << "! Unknown animation type: "

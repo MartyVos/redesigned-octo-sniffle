@@ -1,2 +1,9 @@
-﻿  gridEngineTest.cpp
+﻿  AnimBase.cpp
+  AnimDirectional.cpp
+  Grid.cpp
+  gridEngineTest.cpp
+  SpriteSheet.cpp
+  TextureManager.cpp
+  Tile.cpp
+  Generating Code...
   gridEngineTest.vcxproj -> D:\C++\Test\Debug\gridEngineTest.exe

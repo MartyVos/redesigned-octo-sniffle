@@ -1,4 +1,4 @@
-#include "textureManager.hpp"
+#include "TextureManager.hpp"
 
 sf::Texture* TextureManager::Load(const std::string& l_path) {
 	sf::Texture* texture = new sf::Texture();

@@ -8,10 +8,10 @@
 #include <unordered_map>
 #include "textureManager.hpp"
 #include "direction.hpp"
-#include "Anim_Base.hpp"
-#include "Anim_Directional.hpp"
+#include "AnimBase.hpp"
+#include "AnimDirectional.hpp"
 
-using Animations = std::unordered_map<std::string, Anim_Base*>;
+using Animations = std::unordered_map<std::string, AnimBase*>;
 
 class SpriteSheet {
 private:
@@ -22,7 +22,7 @@ private:
 	Direction m_direction;
 	std::string m_animType;
 	Animations m_animations;
-	Anim_Base* m_animationCurrent;
+	AnimBase* m_animationCurrent;
 	TextureManager* m_textureManager;
 public:
 	SpriteSheet(TextureManager* l_textMgr);
@@ -35,7 +35,7 @@ public:
 	sf::Vector2f GetSpritePosition();
 	Direction GetDirection();
 
-	Anim_Base* GetCurrentAnim();
+	AnimBase* GetCurrentAnim();
 	bool SetAnimation(const std::string &l_name,
 		const bool &l_play = false,
 		const bool &l_loop = false);

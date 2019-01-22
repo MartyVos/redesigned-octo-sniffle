@@ -1,5 +1,5 @@
 #include <iostream>
-#include "textureManager.hpp"
+#include "TextureManager.hpp"
 #include "Tile.hpp"
 #include "json.hpp"
 #include <fstream>

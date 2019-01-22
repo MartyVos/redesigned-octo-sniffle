@@ -157,27 +157,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Anim_Base.hpp" />
-    <ClInclude Include="Anim_Directional.hpp" />
+    <ClInclude Include="AnimBase.hpp" />
+    <ClInclude Include="AnimDirectional.hpp" />
     <ClInclude Include="Canvas.hpp" />
-    <ClInclude Include="direction.hpp" />
+    <ClInclude Include="Direction.hpp" />
     <ClInclude Include="Graphics.hpp" />
     <ClInclude Include="GraphicsSFML.hpp" />
     <ClInclude Include="Grid.hpp" />
     <ClInclude Include="json.hpp" />
-    <ClInclude Include="resourceManager.hpp" />
-    <ClInclude Include="spriteSheet.hpp" />
-    <ClInclude Include="textureManager.hpp" />
+    <ClInclude Include="ResourceManager.hpp" />
+    <ClInclude Include="SpriteSheet.hpp" />
+    <ClInclude Include="TextureManager.hpp" />
     <ClInclude Include="Tile.hpp" />
     <ClInclude Include="TileManager.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Anim_Base.cpp" />
-    <ClCompile Include="Anim_Directional.cpp" />
+    <ClCompile Include="AnimBase.cpp" />
+    <ClCompile Include="AnimDirectional.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="gridEngineTest.cpp" />
-    <ClCompile Include="spriteSheet.cpp" />
-    <ClCompile Include="textureManager.cpp" />
+    <ClCompile Include="SpriteSheet.cpp" />
+    <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -1,9 +1,9 @@
 #ifndef ANIMATION_DIRECTIONAL_HPP
 #define ANIMATION_DIRECTIONAL_HPP
 
-#include "Anim_Base.hpp"
+#include "AnimBase.hpp"
 
-class Anim_Directional : public Anim_Base {
+class AnimDirectional : public AnimBase {
 protected:
 	void FrameStep();
 	void CropSprite();

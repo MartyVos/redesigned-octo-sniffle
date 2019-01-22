@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
-#include "spriteSheet.hpp"
-#include "textureManager.hpp"
+#include "SpriteSheet.hpp"
+#include "TextureManager.hpp"
 
 //No imagePath, TextureManager uses TileID
 

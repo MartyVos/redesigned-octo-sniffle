@@ -6,11 +6,11 @@
 class SpriteSheet;
 using Frame = unsigned int;
 
-class Anim_Base {
+class AnimBase {
 	friend class SpriteSheet;
 public:
-	Anim_Base();
-	virtual ~Anim_Base();
+	AnimBase();
+	virtual ~AnimBase();
 
 	void Play();
 	void Pause();

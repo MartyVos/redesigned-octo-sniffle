@@ -4,13 +4,13 @@
   "data": {
     "grid": {
       "name": "testMap",
-      "width": 5,
-      "next_position": {
-        "left": -1,
-        "right": 1,
-        "up": 5,
-        "down": -5
-      },
+      "width": 10,
+      "next_position": [
+        { "left": -1 },
+        { "right": 1 },
+        { "up": -10 },
+        { "down": 10 }
+      ],
       "tileset": [ "Assets/tileset.png" ],
       "gfx": [
         {
@@ -28,7 +28,7 @@
             "scale": [ 4, 4 ],
             "anim_name": "Water",
             "anim_type": "Directional",
-            "anim": [ 0, 6, 1, 50.0, -1, -1 ]
+            "anim": [ 0, 7, 1, 75.0, -1, -1 ]
           }
         },
         {
@@ -43,7 +43,7 @@
         {
           "3": {
             "size": [ 16, 16 ],
-            "scale": [ 2, 2 ],
+            "scale": [ 4, 4 ],
             "anim_name": "Test",
             "anim_type": "Directional",
             "anim": [ 0, 15, 2, 1000.0, -1, -1 ]
@@ -209,6 +209,98 @@
         {
           "24": {
             "type": 1,
+            "data": {}
+          }
+        },
+
+        {
+          "25": {
+            "type": 0,
+            "data": {}
+          }
+        },
+        {
+          "26": {
+            "type": 2,
+            "data": {}
+          }
+        },
+        {
+          "27": {
+            "type": 2,
+            "data": {}
+          }
+        },
+        {
+          "28": {
+            "type": 2,
+            "data": {}
+          }
+        },
+        {
+          "29": {
+            "type": 1,
+            "data": {}
+          }
+        },
+
+        {
+          "30": {
+            "type": 0,
+            "data": {}
+          }
+        },
+        {
+          "31": {
+            "type": 2,
+            "data": {}
+          }
+        },
+        {
+          "32": {
+            "type": 0,
+            "data": {}
+          }
+        },
+        {
+          "33": {
+            "type": 2,
+            "data": {}
+          }
+        },
+        {
+          "34": {
+            "type": 1,
+            "data": {}
+          }
+        },
+        {
+          "35": {
+            "type": 0,
+            "data": {}
+          }
+        },
+        {
+          "36": {
+            "type": 2,
+            "data": {}
+          }
+        },
+        {
+          "37": {
+            "type": 2,
+            "data": {}
+          }
+        },
+        {
+          "38": {
+            "type": 2,
+            "data": {}
+          }
+        },
+        {
+          "39": {
+            "type": 3,
             "data": {}
           }
         }

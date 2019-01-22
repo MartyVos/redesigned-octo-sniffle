@@ -75,6 +75,29 @@ int main() {
 	GraphicsSFML gs(window, sharedG);
 	float dT = 25.f;
 
+	nlohmann::json J;
+	std::ifstream IN("grid.json");
+	IN >> J;
+	nlohmann::json::array_t directions = J["data"]["grid"]["next_position"];
+
+	sharedG->setupMap(directions);
+
+	std::cout << sharedG->checkDirection("left") << std::endl;
+	std::cout << sharedG->checkDirection("right") << std::endl;
+	std::cout << sharedG->checkDirection("up") << std::endl;
+	std::cout << sharedG->checkDirection("down") << std::endl << std::endl;
+
+	std::cout << sharedG->move(25, 2, "left") << std::endl;
+	std::cout << sharedG->move(25, 2, "right") << std::endl;
+	std::cout << sharedG->move(25, 2, "up") << std::endl;
+	std::cout << sharedG->move(25, 2, "down") << std::endl << std::endl;
+
+	std::cout << sharedG->move(25, 2, "ledft") << std::endl;
+	std::cout << sharedG->move(25, 2, "rigsht") << std::endl;
+	std::cout << sharedG->move(25, 2, "usp") << std::endl;
+	std::cout << sharedG->move(25, 2, "doswn") << std::endl << std::endl;
+
+
 	while (window->isOpen()) {
 		window->clear();
 

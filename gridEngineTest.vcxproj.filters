@@ -51,6 +51,9 @@
     <ClInclude Include="GraphicsSFML.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="TileManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="gridEngineTest.cpp">

@@ -169,6 +169,7 @@
     <ClInclude Include="spriteSheet.hpp" />
     <ClInclude Include="textureManager.hpp" />
     <ClInclude Include="Tile.hpp" />
+    <ClInclude Include="TileManager.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Anim_Base.cpp" />

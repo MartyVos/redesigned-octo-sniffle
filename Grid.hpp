@@ -26,6 +26,7 @@ public:
 	int checkDirection(std::string direction);
 	void setupMap(nlohmann::json::array_t &gridData);
 	int move(int currentIndex, int ID, std::string direction);
+	sf::Vector2f getPlayerPos();
 	~Grid();
 };
 

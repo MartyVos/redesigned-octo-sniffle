@@ -77,3 +77,7 @@ void Grid::setupMap(nlohmann::json::array_t &gridData) {
 	directionMap.emplace("up", gridData[2]["up"]);
 	directionMap.emplace("down", gridData[3]["down"]);
 }
+
+sf::Vector2f Grid::getPlayerPos() {
+	return playerPosition;
+}

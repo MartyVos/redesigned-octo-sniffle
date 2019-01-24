@@ -15,3 +15,11 @@ void Tile::updateFrame(float &dT) {
 void Tile::setAnimation(bool play, bool loop) {
 	sheet.SetAnimation(name, play, loop);
 }
+
+void Tile::setType(std::string l_type) {
+	type = l_type;
+}
+
+std::string Tile::getType() {
+	return type;
+}

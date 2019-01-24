@@ -1,4 +1,5 @@
 Debug/
 GridClassScheme/
+ignore/
 *.user
 *.filters

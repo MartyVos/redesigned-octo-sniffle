@@ -12,6 +12,7 @@ private:
 	std::vector<Tile*> &tileVec;
 	sf::Vector2f playerPosition;
 	unsigned int playerIndex;
+	unsigned int playerTileIndex;
 	std::map<std::string, int> directionMap;
 public:
 	Grid(std::vector<Tile*> &tileVec);
@@ -22,11 +23,13 @@ public:
 	void update(float &dT);
 	void draw(std::shared_ptr<sf::RenderWindow> w);
 	void setPlayerPosition(sf::Vector2f pos);
-	void movePlayer(sf::Vector2f delta);
+	void movePlayer(std::string direction);
 	int checkDirection(std::string direction);
 	void setupMap(nlohmann::json::array_t &gridData);
-	int move(int currentIndex, int ID, std::string direction);
+	unsigned int move(unsigned int currentIndex, int ID, std::string direction);
 	sf::Vector2f getPlayerPos();
+	unsigned int getPlayerIndex();
+	void setPlayerIndex(unsigned int index);
 	~Grid();
 };
 

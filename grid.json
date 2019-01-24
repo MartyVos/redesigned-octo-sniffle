@@ -1,5 +1,5 @@
 {
-  "version": 3.2,
+  "version": 3.3,
   "type": "grid",
   "data": {
     "grid": {
@@ -19,7 +19,8 @@
             "scale": [ 4, 4 ],
             "anim_name": "None",
             "anim_type": "Directional",
-            "anim": [ 0, 0, 0, 0.0, -1, -1 ]
+            "anim": [ 0, 0, 0, 0.0, -1, -1 ],
+            "type": "empty"
           }
         },
         {
@@ -28,7 +29,8 @@
             "scale": [ 4, 4 ],
             "anim_name": "Water",
             "anim_type": "Directional",
-            "anim": [ 0, 7, 1, 75.0, -1, -1 ]
+            "anim": [ 0, 7, 1, 25.0, -1, -1 ],
+            "type": "solid"
           }
         },
         {
@@ -37,7 +39,8 @@
             "scale": [ 4, 4 ],
             "anim_name": "None",
             "anim_type": "Directional",
-            "anim": [ 1, 1, 0, 0.0, -1, -1 ]
+            "anim": [ 1, 1, 0, 0.0, -1, -1 ],
+            "type": "solid"
           }
         },
         {
@@ -46,59 +49,61 @@
             "scale": [ 4, 4 ],
             "anim_name": "Test",
             "anim_type": "Directional",
-            "anim": [ 0, 15, 2, 1000.0, -1, -1 ]
+            "anim": [ 0, 15, 2, 1000.0, -1, -1 ],
+            "type": "solid"
           }
         },
         {
           "4": {
-            "size": [ 32, 32 ],
+            "size": [ 18, 27 ],
             "scale": [ 4, 4 ],
-            "anim_name": "32Test",
+            "anim_name": "Player",
             "anim_type": "Directional",
-            "anim": [ 4, 4, 0, 0.0, -1, -1 ]
+            "anim": [ 0, 3, 2, 250.0, -1, -1 ],
+            "type": "player"
           }
         }
       ],
       "tiles": [
         {
           "0": {
-            "type": 1,
+            "type": 2,
             "data": {}
           }
         },
         {
           "1": {
-            "type": 1,
+            "type": 2,
             "data": {}
           }
         },
         {
           "2": {
-            "type": 1,
+            "type": 2,
             "data": {}
           }
         },
         {
           "3": {
-            "type": 1,
+            "type": 2,
             "data": {}
           }
         },
         {
           "4": {
-            "type": 1,
+            "type": 2,
             "data": {}
           }
         },
         {
           "5": {
-            "type": 1,
+            "type": 2,
             "data": {}
           }
         },
         {
           "6": {
-            "type": 1,
+            "type": 2,
             "data": {
               "player": true
             }
@@ -106,97 +111,97 @@
         },
         {
           "7": {
-            "type": 1,
+            "type": 2,
             "data": {}
           }
         },
         {
           "8": {
-            "type": 1,
+            "type": 2,
             "data": {}
           }
         },
         {
           "9": {
-            "type": 1,
+            "type": 2,
             "data": {}
           }
         },
         {
           "10": {
-            "type": 1,
+            "type": 2,
             "data": {}
           }
         },
         {
           "11": {
-            "type": 1,
+            "type": 0,
             "data": {}
           }
         },
         {
           "12": {
-            "type": 1,
+            "type": 0,
             "data": {}
           }
         },
         {
           "13": {
-            "type": 1,
+            "type": 0,
             "data": {}
           }
         },
         {
           "14": {
-            "type": 1,
+            "type": 0,
             "data": {}
           }
         },
         {
           "15": {
-            "type": 1,
+            "type": 0,
             "data": {}
           }
         },
         {
           "16": {
-            "type": 1,
+            "type": 0,
             "data": {}
           }
         },
         {
           "17": {
-            "type": 1,
+            "type": 0,
             "data": {}
           }
         },
         {
           "18": {
-            "type": 1,
+            "type": 0,
             "data": {}
           }
         },
         {
           "19": {
-            "type": 1,
+            "type": 0,
             "data": {}
           }
         },
         {
           "20": {
-            "type": 1,
+            "type": 2,
             "data": {}
           }
         },
         {
           "21": {
-            "type": 1,
+            "type": 0,
             "data": {}
           }
         },
         {
           "22": {
-            "type": 1,
+            "type": 0,
             "data": {}
           }
         },
@@ -244,19 +249,19 @@
         },
         {
           "30": {
-            "type": 1,
+            "type": 2,
             "data": {}
           }
         },
         {
           "31": {
-            "type": 1,
+            "type": 0,
             "data": {}
           }
         },
         {
           "32": {
-            "type": 1,
+            "type": 0,
             "data": {}
           }
         },
@@ -274,7 +279,7 @@
         },
         {
           "35": {
-            "type": 1,
+            "type": 3,
             "data": {}
           }
         },
@@ -304,19 +309,19 @@
         },
         {
           "40": {
-            "type": 1,
+            "type": 2,
             "data": {}
           }
         },
         {
           "41": {
-            "type": 1,
+            "type": 0,
             "data": {}
           }
         },
         {
           "42": {
-            "type": 1,
+            "type": 0,
             "data": {}
           }
         },
@@ -364,19 +369,19 @@
         },
         {
           "50": {
-            "type": 1,
+            "type": 2,
             "data": {}
           }
         },
         {
           "51": {
-            "type": 1,
+            "type": 0,
             "data": {}
           }
         },
         {
           "52": {
-            "type": 1,
+            "type": 0,
             "data": {}
           }
         },
@@ -424,121 +429,121 @@
         },
         {
           "60": {
-            "type": 1,
+            "type": 2,
             "data": {}
           }
         },
         {
           "61": {
-            "type": 1,
+            "type": 0,
             "data": {}
           }
         },
         {
           "62": {
-            "type": 1,
+            "type": 0,
             "data": {}
           }
         },
         {
           "63": {
-            "type": 1,
+            "type": 0,
             "data": {}
           }
         },
         {
           "64": {
-            "type": 1,
+            "type": 0,
             "data": {}
           }
         },
         {
           "65": {
-            "type": 1,
+            "type": 0,
             "data": {}
           }
         },
         {
           "66": {
-            "type": 1,
+            "type": 0,
             "data": {}
           }
         },
         {
           "67": {
-            "type": 1,
+            "type": 0,
             "data": {}
           }
         },
         {
           "68": {
-            "type": 1,
+            "type": 0,
             "data": {}
           }
         },
         {
           "69": {
-            "type": 1,
+            "type": 0,
             "data": {}
           }
         },
         {
           "70": {
-            "type": 1,
+            "type": 2,
             "data": {}
           }
         },
         {
           "71": {
-            "type": 1,
+            "type": 2,
             "data": {}
           }
         },
         {
           "72": {
-            "type": 1,
+            "type": 2,
             "data": {}
           }
         },
         {
           "73": {
-            "type": 1,
+            "type": 2,
             "data": {}
           }
         },
         {
           "74": {
-            "type": 1,
+            "type": 2,
             "data": {}
           }
         },
         {
           "75": {
-            "type": 1,
+            "type": 2,
             "data": {}
           }
         },
         {
           "76": {
-            "type": 1,
+            "type": 2,
             "data": {}
           }
         },
         {
           "77": {
-            "type": 1,
+            "type": 2,
             "data": {}
           }
         },
         {
           "78": {
-            "type": 1,
+            "type": 2,
             "data": {}
           }
         },
         {
           "79": {
-            "type": 1,
+            "type": 2,
             "data": {}
           }
         }

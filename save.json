@@ -1,0 +1,39 @@
+{
+    "data": {
+        "grid": {
+            "grid_objects": [
+                {
+                    "position": 57,
+                    "unique_id": 7
+                }
+            ]
+        },
+        "player": {
+            "grid_id": 0,
+            "name": "Marty",
+            "pocket_animals": [
+                {
+                    "nickname": "Oh shit he",
+                    "pocket_id": 0,
+                    "pocket_name": "tmp0",
+                    "unique_id": 0
+                },
+                {
+                    "nickname": "I dunno lol",
+                    "pocket_id": 1,
+                    "pocket_name": "tmp1",
+                    "unique_id": 33
+                },
+                {
+                    "nickname": "Pocket McPocketface",
+                    "pocket_id": 2,
+                    "pocket_name": "tmp2",
+                    "unique_id": 42
+                }
+            ],
+            "position": 42
+        }
+    },
+    "type": "save",
+    "version": 2.0
+}

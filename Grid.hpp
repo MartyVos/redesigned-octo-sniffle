@@ -19,7 +19,7 @@ public:
 	bool validMove(int currentIndex, int direction);
 	int move(int currentIndex, int ID, int direction);
 	int getType(int currentIndex, int direction);
-	void onRender()override {}
+	void Render(std::shared_ptr<sf::RenderWindow> w) {}
 	void update(float &dT);
 	void draw(std::shared_ptr<sf::RenderWindow> w);
 	void setPlayerPosition(sf::Vector2f pos);

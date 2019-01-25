@@ -30,6 +30,10 @@ int Grid::getType(int currentIndex, int direction) {
 	return 0;
 }
 
+void Grid::Render(std::shared_ptr<sf::RenderWindow> w) {
+	std::cout << __FILE__ << std::endl;
+}
+
 void Grid::update(float &dT) {
 	for (auto &i : tileVec) {
 		i->updateFrame(dT);

@@ -21,6 +21,11 @@ TODO:	Make flyweight:
 #include "GraphicsSFML.hpp"
 #include "Grid.hpp"
 
+//Globaal, weet ik. Is maar tijdelijk.
+static unsigned int width;
+static unsigned int tileSize = 64;
+
+
 //Deze functie leest de spelers index uit een save file
 unsigned int readIndex(std::string saveFile) {
 	std::ifstream file(saveFile);
@@ -47,8 +52,6 @@ void saveIndex(unsigned int index, std::string saveFile) {
 sf::Vector2f convertIndextoCoords(unsigned int index) {
 	//TODO:	make map width + scaling private vars
 	int m_index = static_cast<int>(index);
-	unsigned int width = 10;
-	unsigned int tileSize = 64;
 	int c = 0;
 	while (m_index >= 0) {
 		if ((m_index -= width) < 0) {
@@ -66,8 +69,6 @@ sf::Vector2f convertIndextoCoords(unsigned int index) {
 //Deze functie converteert sf::Vector2f naar een std::vector index.
 unsigned int convertCoordsToIndex(sf::Vector2f coordinate) {
 	//TODO:	make map width + scaling private vars
-	unsigned int width = 10;
-	unsigned int tileSize = 64;
 	auto index = static_cast<unsigned int>(coordinate.x) + static_cast<unsigned int>((coordinate.y * width));
 	return index / tileSize;
 }
@@ -110,7 +111,6 @@ std::vector<Tile*> getTiles(nlohmann::json &J, TextureManager &tex) {
 		tileVec.push_back(new Tile{ type,&tex,animName });
 		tileVec[i]->setPosition(sf::Vector2f{ x, y });
 		tileVec[i]->setType(blockType);
-
 		if (index == width - 1) {
 			r++;
 		}
@@ -126,6 +126,8 @@ int main() {
 	std::ifstream IN("grid.json");
 	IN >> J;
 	IN.close();
+
+	width = J["data"]["grid"]["width"];
 
 	auto tiles = getTiles(J, tex);
 
@@ -155,8 +157,6 @@ int main() {
 	view1.setSize(sf::Vector2f{ 640.f,480.f });	
 	//Deze setCenter is nodig voor de initialisatie
 	view1.setCenter(sharedG->getPlayerPos());
-
-	
 
 	while (window->isOpen()) {
 		window->setVerticalSyncEnabled(true);

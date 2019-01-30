@@ -22,14 +22,6 @@ void SpriteSheet::ReleaseSheet() {
 
 void SpriteSheet::SetSpriteSize(const sf::Vector2i &l_size) {
 	m_spriteSize = l_size;
-	auto pos = this->GetSpritePosition();
-	sf::Vector2f tmp = { static_cast<float>(pos.x), static_cast<float>(pos.y) };
-	m_sprite.setOrigin(tmp);
-	//m_spriteSize.x/2
-}
-
-void SpriteSheet::SetSpritePosition(const sf::Vector2f &l_pos) {
-	m_sprite.setPosition(l_pos);
 }
 
 void SpriteSheet::SetSpriteDirection(const Direction &l_dir) {
@@ -39,7 +31,9 @@ void SpriteSheet::SetSpriteDirection(const Direction &l_dir) {
 }
 
 void SpriteSheet::CropSprite(const sf::IntRect &l_rect) {
-	m_sprite.setTextureRect(l_rect);
+	for (auto &i : spriteTable) {
+		i->setTextureRect(l_rect);
+	}
 }
 
 bool SpriteSheet::SetAnimation(const std::string &l_name,
@@ -68,15 +62,13 @@ void SpriteSheet::Update(const float &l_dT) {
 }
 
 void SpriteSheet::draw(std::shared_ptr<sf::RenderWindow> w) {
-	w->draw(m_sprite);
+	for (auto &i : this->spriteTable) {
+		w->draw(*i);
+	}
 }
 
 sf::Vector2i SpriteSheet::GetSpriteSize() {
 	return m_spriteSize;
-}
-
-sf::Vector2f SpriteSheet::GetSpritePosition() {
-	return m_sprite.getPosition();
 }
 
 Direction SpriteSheet::GetDirection() {
@@ -130,18 +122,23 @@ bool SpriteSheet::LoadSheet(const std::string &l_file) {
 		}
 
 		m_texture = texture;
-		m_sprite.setTexture(*m_textureManager->GetResource(m_texture));
+
+		for (auto &i : spriteTable) {
+			i->setTexture(*m_textureManager->GetResource(m_texture));
+		}
 		json::object_t tileID = tileData[ID][std::to_string(ID)];
-	
+		
+		auto scale = tileID["scale"];
+		this->m_spriteScale.x = scale[0];
+		this->m_spriteScale.y = scale[1];
+		for (auto &i : spriteTable) {
+			i->setScale(this->m_spriteScale);
+		}
+
 		auto sizes = tileID["size"];
 		m_spriteSize.x = sizes[0];
 		m_spriteSize.y = sizes[1];
 		SetSpriteSize(m_spriteSize);
-
-		auto scale = tileID["scale"];
-		m_spriteScale.x = scale[0];
-		m_spriteScale.y = scale[1];
-		m_sprite.setScale(m_spriteScale);
 		
 		auto animName = tileID["anim_name"];
 		json::string_t animType = tileID["anim_type"];
@@ -184,7 +181,7 @@ bool SpriteSheet::LoadSheet(const std::string &l_file) {
 		anim->SetSpriteSheet(this);
 		anim->SetName(name);
 		anim->Reset();
-		m_animations.emplace(name, anim);
+		this->m_animations.emplace(name, anim);
 		if (m_animationCurrent) {}
 		m_animationCurrent = anim;
 		m_animationCurrent->Play();
@@ -197,6 +194,12 @@ bool SpriteSheet::LoadSheet(const std::string &l_file) {
 			<< l_file << std::endl;
 	}
 	return false;
+}
+
+void SpriteSheet::SetSpriteTable(std::vector<sf::Sprite*> &l_spriteTable) {
+	for (auto &i : l_spriteTable) {
+		spriteTable.push_back(i);
+	}
 }
 
 //TODO:	Rewrite gridWindow.cpp for using animations

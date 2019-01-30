@@ -6,6 +6,7 @@
 #include <string>
 #include <fstream>
 #include <unordered_map>
+#include <vector>
 #include "textureManager.hpp"
 #include "direction.hpp"
 #include "AnimBase.hpp"
@@ -16,7 +17,7 @@ using Animations = std::unordered_map<std::string, AnimBase*>;
 class SpriteSheet {
 private:
 	std::string m_texture;
-	sf::Sprite m_sprite;
+	std::vector<sf::Sprite*> spriteTable;
 	sf::Vector2i m_spriteSize;
 	sf::Vector2f m_spriteScale;
 	Direction m_direction;
@@ -32,7 +33,6 @@ public:
 	void ReleaseSheet();
 
 	sf::Vector2i GetSpriteSize();
-	sf::Vector2f GetSpritePosition();
 	Direction GetDirection();
 
 	AnimBase* GetCurrentAnim();
@@ -44,8 +44,8 @@ public:
 	void draw(std::shared_ptr<sf::RenderWindow> w);
 
 	void SetSpriteSize(const sf::Vector2i &l_size);
-	void SetSpritePosition(const sf::Vector2f &l_pos);
 	void SetSpriteDirection(const Direction &l_dir);
+	void SetSpriteTable(std::vector<sf::Sprite*> &l_spriteTable);
 	
 };
 

@@ -1,5 +1,6 @@
 Debug/
 GridClassScheme/
 ignore/
+TILE_BACKUP/
 *.user
 *.filters

@@ -9,6 +9,7 @@ TODO:	Make flyweight:
 #include <iostream>
 #include "TextureManager.hpp"
 #include "Tile.hpp"
+#include "UniqueTile.hpp"
 #include "json.hpp"
 #include <fstream>
 #include <string>
@@ -82,8 +83,29 @@ void destroy_vector(std::vector<T*> &v) {
 	}
 }
 
+//TODO:	Repair NPC
+
+/*
+std::vector<Tile*> getNPC(nlohmann::json &J, TextureManager &tex) {
+	nlohmann::json::array_t npcArray = J["data"]["grid"]["npc"];
+	std::vector<Tile*> v;
+
+	for (unsigned int i = 0; i < npcArray.size(); i++) {
+		nlohmann::json::object_t UID = npcArray[i][std::to_string(i)];
+
+		int id = UID["tile_id"];
+		nlohmann::json::array_t path = UID["path"];
+		nlohmann::json::array_t time = UID["time"];
+		unsigned int index = UID["position"];
+		v.push_back(new Tile{ id, &tex, "Pocket1", i });
+		v[i]->setPath(path, time);
+		v[i]->setPosition(convertIndextoCoords(index));
+	}
+	return v;
+}*/
+
 //Deze functie haalt tiles uit een JSON-object en returnt een std::vector<Tile*>
-std::vector<Tile*> getTiles(nlohmann::json &J, TextureManager &tex) {
+std::vector<Tile*> getTiles(nlohmann::json &J, std::vector<UniqueTile*> &unique) {
 	nlohmann::json::array_t tileArray = J["data"]["grid"]["tiles"];
 	nlohmann::json::array_t gfxData = J["data"]["grid"]["gfx"];
 	unsigned int arraySize = tileArray.size();
@@ -100,22 +122,37 @@ std::vector<Tile*> getTiles(nlohmann::json &J, TextureManager &tex) {
 		int type = tileID["type"];
 		nlohmann::json::object_t gfxID = gfxData[type][std::to_string(type)];
 		
-		std::string blockType = gfxID["type"];
 		int tileSize = gfxID["size"][0];
 		int tileScale = gfxID["scale"][0];
-		std::string animName = gfxID["anim_name"];
 
 		float x = static_cast<float>(index*tileSize*tileScale);
 		float y = static_cast<float>(r*tileSize*tileScale);
 
-		tileVec.push_back(new Tile{ type,&tex,animName });
-		tileVec[i]->setPosition(sf::Vector2f{ x, y });
-		tileVec[i]->setType(blockType);
+		tileVec.push_back(new Tile{ type,unique[type], i });
+		tileVec[i]->setPosition(sf::Vector2f{ x, y });		
+		
+		unique[type]->appendSprite(&tileVec[i]->m_sprite);
 		if (index == width - 1) {
 			r++;
 		}
 	}
+
+	for (unsigned i = 0; i < unique.size(); i++) {
+		unique[i]->setupSpriteTable(std::to_string(i));
+		unique[i]->setAnimation(gfxData[i][std::to_string(i)]["anim_name"], true, true);
+	}
+
 	return tileVec;
+}
+
+std::vector<UniqueTile*> getUniqueTiles(nlohmann::json &J, TextureManager &tex) {
+	std::vector<UniqueTile*> v;
+	nlohmann::json::array_t gfxData = J["data"]["grid"]["gfx"];
+	for (unsigned int i = 0; i < gfxData.size(); i++) {
+		v.push_back(new UniqueTile{ i, &tex });
+		v[i]->setType(gfxData[i][std::to_string(i)]["type"]);
+	}
+	return v;
 }
 
 int main() {
@@ -129,14 +166,24 @@ int main() {
 
 	width = J["data"]["grid"]["width"];
 
-	auto tiles = getTiles(J, tex);
+	std::vector<UniqueTile*> uniqueTileVec = getUniqueTiles(J, tex);
+
+	auto tiles = getTiles(J, uniqueTileVec);
+	//auto pocketAnimals = getNPC(J, tex);
 
 	//Voorlopig is de speler een Tile met ID 4
 	int playerID = 4;
-	Tile* player = new Tile{ playerID,&tex,"Player" };
+	Tile* player = (new Tile{ 4,uniqueTileVec[4], 10 });
 	tiles.push_back(player);
+	uniqueTileVec[4]->appendSprite(&player->m_sprite);
+	uniqueTileVec[4]->setupSpriteTable("4");
+	uniqueTileVec[4]->setAnimation("Player", true, true);
 
-	auto sharedG = std::make_shared<Grid>(tiles);
+	std::vector<Tile*> pocketAnimals;		//Empty npc vector
+
+	auto sharedG = std::make_shared<Grid>(uniqueTileVec, tiles, pocketAnimals, width, tileSize);
+
+												//Make another Tile* vector for PocketAnimals
 
 	//Set de steps die de speler moet nemen om omhoog,omlaag,links en rechts te kunnen bewegen.
 	nlohmann::json::array_t directions = J["data"]["grid"]["next_position"];	
@@ -154,7 +201,7 @@ int main() {
 
 	//Set de view (of camera) ter grootte van het scherm en focused op de speler.
 	sf::View view1;
-	view1.setSize(sf::Vector2f{ 640.f,480.f });	
+	view1.setSize(sf::Vector2f{ 640.f*2,480.f*2 });	
 	//Deze setCenter is nodig voor de initialisatie
 	view1.setCenter(sharedG->getPlayerPos());
 
@@ -174,6 +221,8 @@ int main() {
 				saveIndex(sharedG->getPlayerIndex(), "save.json");
 				window->close();
 				destroy_vector<Tile>(tiles);
+				destroy_vector<Tile>(pocketAnimals);
+				destroy_vector<UniqueTile>(uniqueTileVec);
 			}
 			else if (event.type == sf::Event::KeyPressed) {
 				switch (event.key.code)

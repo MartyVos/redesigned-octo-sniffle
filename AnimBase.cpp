@@ -50,6 +50,7 @@ void AnimBase::Reset() {
 
 void AnimBase::Update(const float &l_dT) {
 	if (!m_playing) { return; }
+	//if (m_frameCurrent >= m_frameEnd) { m_frameCurrent = m_frameStart; }
 	m_elapsedTime += l_dT;
 	if (m_elapsedTime < m_frameTime) { return; }
 	FrameStep();

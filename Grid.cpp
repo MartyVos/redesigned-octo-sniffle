@@ -2,8 +2,8 @@
 #include <iostream>
 //#include "GameObjectsDefault.hpp"
 
-Grid::Grid(std::vector<Tile*> &tileVec):
-	tileVec(tileVec)
+Grid::Grid(std::vector<UniqueTile*> &unique, std::vector<Tile*> &tileVec, std::vector<Tile*> &npcVec, unsigned int width, unsigned int tileSize):
+	unique(unique), tileVec(tileVec), npcVec(npcVec), width(width), tileSize(tileSize)
 {
 	playerTileIndex = tileVec.size() - 1;
 }
@@ -30,23 +30,26 @@ int Grid::getType(int currentIndex, int direction) {
 	return 0;
 }
 
-void Grid::Render(std::shared_ptr<sf::RenderWindow> w) {
-	std::cout << __FILE__ << std::endl;
-}
-
 void Grid::update(float &dT) {
-	for (auto &i : tileVec) {
+	for (auto &i : unique) {
 		i->updateFrame(dT);
-	}
+	}/*
+	for (auto &i : npcVec) {
+		//i->updateFrame(dT);
+		//i->move(i->getPath());
+	}*/
 }
 
 Grid::~Grid() {
 }
 
 void Grid::draw(std::shared_ptr<sf::RenderWindow> w) {
-	for (auto &i : tileVec) {
+	for (auto &i : this->unique) {
 		i->draw(w);
-	}
+	}/*
+	for (auto &i : npcVec) {
+		//i->draw(w);
+	}*/
 }
 
 void Grid::setPlayerPosition(sf::Vector2f pos) {
@@ -72,6 +75,10 @@ unsigned int Grid::move(unsigned int currentIndex, int ID, std::string direction
 	if (tmp != -2) {
 		int futureIndex = static_cast<int>(currentIndex) + tmp;
 		if (futureIndex < 0 || futureIndex >= static_cast<int>(tileVec.size())) { return currentIndex; }
+		if ((futureIndex == currentIndex-1 && currentIndex % width == 0) ||
+			(futureIndex == currentIndex + 1 && currentIndex % width == width - 1)) {
+			return currentIndex;
+		}
 		if (tileVec[futureIndex]->getType() != "solid") {
 			currentIndex = futureIndex;
 			playerIndex += tmp;

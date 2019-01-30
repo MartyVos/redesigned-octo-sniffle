@@ -1,31 +1,37 @@
 #pragma once
 #include <string>
+#include <vector>
 #include "SpriteSheet.hpp"
 #include "TextureManager.hpp"
+#include "UniqueTile.hpp"
 
 //No imagePath, TextureManager uses TileID
 
+class UniqueTile;
+
 class Tile {
 private:
+	UniqueTile* m_uniqueTile;
 	int & id;
-	SpriteSheet sheet;
-	TextureManager* tex;
+	unsigned int UID;		//Tmp: unique prite ID
 	unsigned int gridPosition;
-	std::string name;
-	std::string type;
+	unsigned int currentTime;
+	std::string currentDirection;
+	std::vector<std::string> path;
+	std::vector<unsigned int> time;
+	unsigned int patIndex;
 public:
-	Tile(int & id, TextureManager* tex, std::string animationName):
-		id(id), tex(tex), sheet(tex), name(animationName)
-	{
-		this->sheet.LoadSheet(std::to_string(id));
-		this->setAnimation();
-	};
-	~Tile() { this->sheet.ReleaseSheet(); }
-	void draw(std::shared_ptr<sf::RenderWindow> w);
+	sf::Sprite m_sprite;
+	Tile(int id, UniqueTile* l_uniqueTile, unsigned int uid = 0) :
+		id(id), m_uniqueTile(l_uniqueTile), UID(uid)
+	{}
+	~Tile() {}
 	void setPosition(sf::Vector2f pos);
-	void updateFrame(float &dT);
-	void setAnimation(bool play = true, bool loop = true);
-	void setType(std::string l_type);
+	void setScale(sf::Vector2f scale);
 	std::string getType();
+	unsigned int getUID();
+	void setPath(nlohmann::json::array_t paths, nlohmann::json::array_t pathTime);
+	std::string getCurrentDirection();
+	unsigned int getCurrentTime();
+	
 };
-

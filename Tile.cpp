@@ -1,25 +1,35 @@
 #include "Tile.hpp"
-
-void Tile::draw(std::shared_ptr<sf::RenderWindow> w) {
-	sheet.draw(w);
-}
+#include "UniqueTile.hpp"
 
 void Tile::setPosition(sf::Vector2f pos) {
-	sheet.SetSpritePosition(pos);
+	m_sprite.setPosition(pos);
 }
 
-void Tile::updateFrame(float &dT) {
-	sheet.Update(dT);
-}
-
-void Tile::setAnimation(bool play, bool loop) {
-	sheet.SetAnimation(name, play, loop);
-}
-
-void Tile::setType(std::string l_type) {
-	type = l_type;
+void Tile::setScale(sf::Vector2f scale) {
+	m_sprite.setScale(scale);
 }
 
 std::string Tile::getType() {
-	return type;
+	return this->m_uniqueTile->getType();
+}
+
+unsigned int Tile::getUID() {
+	return UID;
+}
+
+void Tile::setPath(nlohmann::json::array_t paths, nlohmann::json::array_t pathTime) {
+	for (unsigned int i = 0; i < paths.size(); i++) {
+		this->path.push_back(paths[i]);
+		this->time.push_back(pathTime[i]);
+	}
+	this->currentDirection = path[0];
+	this->currentTime = time[0];
+}
+
+std::string Tile::getCurrentDirection() {
+	return currentDirection;
+}
+
+unsigned int Tile::getCurrentTime() {
+	return currentTime;
 }

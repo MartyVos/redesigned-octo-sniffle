@@ -171,13 +171,34 @@ int main() {
 	auto tiles = getTiles(J, uniqueTileVec);
 	//auto pocketAnimals = getNPC(J, tex);
 
+
+
+
+
+
+
+
+
 	//Voorlopig is de speler een Tile met ID 4
-	int playerID = 4;
-	Tile* player = (new Tile{ 4,uniqueTileVec[4], 10 });
+	int playerID = 62;
+	Tile* player = (new Tile{ playerID,uniqueTileVec[playerID], 10 });
 	tiles.push_back(player);
-	uniqueTileVec[4]->appendSprite(&player->m_sprite);
-	uniqueTileVec[4]->setupSpriteTable("4");
-	uniqueTileVec[4]->setAnimation("Player", true, true);
+	uniqueTileVec[playerID]->appendSprite(&player->m_sprite);
+	uniqueTileVec[playerID]->setupSpriteTable(std::to_string(playerID));
+	uniqueTileVec[playerID]->setAnimation("Player", true, true);
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	std::vector<Tile*> pocketAnimals;		//Empty npc vector
 
@@ -189,9 +210,19 @@ int main() {
 	nlohmann::json::array_t directions = J["data"]["grid"]["next_position"];	
 	sharedG->setupMap(directions);
 
+
+
+
+
+
+
 	unsigned int initIndex = readIndex("save.json");
 	sharedG->setPlayerPosition(convertIndextoCoords(initIndex));	//Set de spelers positie
 	sharedG->setPlayerIndex(initIndex);								//Set de spelers grid index 
+
+
+
+
 
 	auto window = std::make_shared<sf::RenderWindow>(sf::VideoMode{ 640,480 }, "PocketAnimals Grid Test");
 
